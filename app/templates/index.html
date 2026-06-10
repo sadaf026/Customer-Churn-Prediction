@@ -1,0 +1,566 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Customer Churn Prediction System</title>
+
+    <style>
+
+        body{
+            font-family: Arial, sans-serif;
+            background:#f4f4f4;
+            margin:40px;
+        }
+
+        .container{
+            width:95%;
+            max-width:1400px;
+            margin:auto;
+            background:white;
+            padding:30px;
+            border-radius:15px;
+            box-shadow:0px 0px 15px rgba(0,0,0,0.15);
+       }      
+
+        h1{
+          text-align:center;
+          color:#007bff;
+          font-size:36px;
+          margin-bottom:25px;
+       }
+
+        h2{
+            text-align:center;
+        }
+
+        label{
+            font-weight:bold;
+        }
+
+        input,select{
+            width:100%;
+            padding:14px;
+            margin-top:5px;
+            margin-bottom:15px;
+            font-size:16px;
+        }
+
+        button{
+            width:100%;
+            padding:15px;
+            background:#007bff;
+            color:white;
+            border:none;
+            cursor:pointer;
+            font-size:18px;
+            border-radius:8px;
+        }
+
+        button:hover{
+            background:#0056b3;
+        }
+
+        img{
+            width:100%;
+            margin-top:20px;
+            max-width:900px;
+            display:block;
+            margin:auto;
+            border-radius:10px;
+        }
+
+        .dashboard{
+            display:flex;
+            justify-content:space-between;
+            gap:15px;
+            margin:20px 0;
+            flex-wrap:wrap;
+        }
+
+        .card{
+            flex:1;
+            min-width:250px;
+            background:#f8f9fa;
+            padding:25px;
+            border-radius:10px;
+            text-align:center;
+            box-shadow:0 0 8px rgba(0,0,0,0.1);
+            transition:0.3s;
+        }
+         
+         .card:hover{
+            transform:translateY(-5px);
+        } 
+
+        .card h3{
+            color:#007bff;
+            margin-bottom:8px;
+            font-size:28px;
+        }
+
+        .result-box{
+            margin-top:25px;
+            font-size:22px;
+            padding:25px;
+            border-radius:8px;
+            text-align:center;
+       }
+
+        .success{
+           background:#e8f5e9;
+           border-left:8px solid #28a745;
+       }
+
+        .danger{
+            background:#ffebee;
+            border-left:8px solid #dc3545;
+        }
+
+        .about-section,
+        .workflow-section{
+            margin-top:30px;
+            padding:20px;
+            background:#f8f9fa;
+            border-radius:10px;
+            box-shadow:0 0 8px rgba(0,0,0,0.1);
+        }
+
+        .about-section p{
+            line-height:1.7;
+            text-align:justify;
+        }
+
+        .workflow-section ol{
+            line-height:1.8;
+        }
+
+        .footer{
+            text-align:center;
+            margin-top:25px;
+            color:#555;
+            font-size:14px;
+        }
+
+          ul{
+           line-height:2;
+           font-size:16px;
+        }
+        
+        table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+table th{
+    background:#007bff;
+    color:white;
+    padding:12px;
+}
+
+table td{
+    padding:10px;
+    text-align:center;
+}
+
+table tr:nth-child(even){
+    background:#f2f2f2;
+}
+        
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Customer Churn Prediction System</h1>
+
+    <p style="text-align:center; color:gray; margin-top:-10px; margin-bottom:25px;">
+        Machine Learning Powered Customer Retention Analytics
+    </p>
+
+    <div class="dashboard">
+
+        <div class="card">
+            <h3>96%</h3>
+            <p>Model Accuracy</p>
+        </div>
+
+        <div class="card">
+            <h3>500</h3>
+            <p>Dataset Records</p>
+        </div>
+
+        <div class="card">
+            <h3>7</h3>
+            <p>Features Used</p>
+        </div>
+
+        <div class="card">
+            <h3>Random Forest</h3>
+            <p>Algorithm</p>
+        </div>
+
+    </div>
+
+    <form action="/predict" method="POST">
+
+        <label>Tenure (Months)</label>
+        <input type="number" name="tenure" required>
+
+        <label>Monthly Charges</label>
+        <input type="number" name="monthly_charges" required>
+
+        <label>Total Charges</label>
+        <input type="number" name="total_charges" required>
+
+        <label>Contract Type</label>
+        <select name="contract_type">
+            <option value="0">Month-to-Month</option>
+            <option value="1">One Year</option>
+            <option value="2">Two Year</option>
+        </select>
+
+        <label>Payment Method</label>
+        <select name="payment_method">
+            <option value="0">Electronic Check</option>
+            <option value="1">Credit Card</option>
+            <option value="2">Bank Transfer</option>
+        </select>
+
+        <label>Paperless Billing</label>
+        <select name="paperless_billing">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select>
+
+        <label>Senior Citizen</label>
+        <select name="senior_citizen">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select>
+
+        <button type="submit">
+            Predict Churn
+        </button>
+
+    </form>
+
+    {% if prediction %}
+
+    <div class="result-box {{ result_color }}">
+
+        <h2>{{ prediction }}</h2>
+         
+        {% if prediction == "Customer Will Churn" %}
+
+           <span style="
+           background:#dc3545;
+           color:white;
+           padding:8px 15px;
+           border-radius:20px;">
+           High Risk
+           </span>
+
+       {% else %}
+
+           <span style="
+           background:#28a745;
+           color:white;
+           padding:8px 15px;
+           border-radius:20px;">
+           Healthy Customer
+           </span>
+
+      {% endif %}
+
+        <p>
+            Confidence Score:
+            <strong>{{ confidence }}%</strong>
+        </p>
+
+        <p>
+            Churn Probability:
+            <strong>{{ confidence }}%</strong>
+        </p>
+
+        <p>
+            Risk Level:
+            <strong>{{ risk_level }}</strong>
+        </p>
+
+    </div>
+
+    {% endif %}
+
+     {% if recommendations %}
+
+   <div class="about-section">
+
+    <h2>Recommended Actions</h2>
+
+    <ul>
+        {% for item in recommendations %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+
+</div>
+
+{% endif %}
+
+{% if prediction %}
+
+<div class="dashboard">
+
+    <div class="card">
+
+{% if health_score >= 70 %}
+    <h3 style="color:green;">{{ health_score }}%</h3>
+
+{% elif health_score >= 40 %}
+    <h3 style="color:orange;">{{ health_score }}%</h3>
+
+{% else %}
+    <h3 style="color:red;">{{ health_score }}%</h3>
+
+{% endif %}
+
+<p>Customer Health Score</p>
+
+</div>
+
+</div>
+
+{% endif %}
+
+<div class="dashboard">
+    <div class="card">
+        <h3>{{ total_predictions }}</h3>
+        <p>Total Predictions</p>
+    </div>
+
+    <div class="card">
+        <h3>{{ total_churn }}</h3>
+        <p>Churn Customers</p>
+    </div>
+
+    <div class="card">
+        <h3>{{ total_stay }}</h3>
+        <p>Retained Customers</p>
+    </div>
+
+    <div class="card">
+        <h3>
+            {% if total_predictions > 0 %}
+                {{ ((total_stay / total_predictions) * 100) | round(1) }}%
+            {% else %}
+                0%
+            {% endif %}
+        </h3>
+        <p>Retention Rate</p>
+    </div>
+</div>
+    <div class="about-section">
+
+        <h2>About the Project</h2>
+
+        <p>
+            This Customer Churn Prediction System uses Machine Learning
+            techniques to predict whether a customer is likely to leave a
+            company's service. The prediction is based on customer tenure,
+            billing information, contract type, payment method, paperless
+            billing preferences, and senior citizen status.
+        </p>
+
+        <p>
+            The project uses a Random Forest Classifier, which is known for
+            high accuracy and strong performance on structured datasets.
+            Businesses can use this prediction system to identify potential
+            churn customers and improve retention strategies.
+        </p>
+
+    </div>
+
+
+<!-- MODEL INFORMATION SECTION START -->
+
+<div class="about-section">
+
+    <h2>Model Information</h2>
+
+    <div class="dashboard">
+
+        <div class="card">
+            <h3>Random Forest</h3>
+            <p>Algorithm</p>
+        </div>
+
+        <div class="card">
+            <h3>7</h3>
+            <p>Features</p>
+        </div>
+
+        <div class="card">
+            <h3>500</h3>
+            <p>Dataset Records</p>
+        </div>
+
+        <div class="card">
+            <h3>Binary</h3>
+            <p>Classification</p>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- MODEL INFORMATION SECTION END -->
+
+<div class="workflow-section">
+
+    <h2>How Prediction Works</h2>
+
+
+    <div class="workflow-section">
+
+        <h2>How Prediction Works</h2>
+
+        <ol>
+            <li>User enters customer details.</li>
+            <li>Flask receives the input data.</li>
+            <li>Input features are passed to the trained ML model.</li>
+            <li>Random Forest analyzes customer behavior patterns.</li>
+            <li>The model predicts churn probability.</li>
+            <li>Prediction result and confidence score are displayed.</li>
+        </ol>
+
+    </div>
+
+      <div class="about-section">
+
+    <h2>Prediction Analytics</h2>
+
+        <div style="width:350px; height:350px; margin:auto;">
+        <canvas id="churnChart"></canvas>
+    </div>
+
+</div>
+
+    <h2>Feature Importance Analysis</h2>
+
+    <img src="{{ url_for('static', filename='feature_importance.png') }}"
+         alt="Feature Importance Graph">
+
+      {% if history %}
+
+<div class="workflow-section">
+
+    <h2>Recent Predictions</h2>
+
+    <table border="1" width="100%" cellpadding="10">
+
+        <tr>
+            <th>Tenure</th>
+            <th>Monthly Charges</th>
+            <th>Prediction</th>
+            <th>Date</th>
+        </tr>
+
+        {% for row in history %}
+
+        <tr>
+            <td>{{ row.tenure }}</td>
+            <td>{{ row.monthly_charges }}</td>
+                         
+            <td>
+
+        {% if row.result == "Customer Will Churn" %}
+
+             <span style="color:red;font-weight:bold;">
+             {{ row.result }}
+             </span>
+
+         {% else %}
+
+             <span style="color:green;font-weight:bold;">
+             {{ row.result }}
+             </span>
+
+         {% endif %}
+
+          </td>
+              
+            <td>{{ row.date }}</td>       
+       </tr>
+
+        {% endfor %}
+
+    </table>
+
+</div>
+
+{% endif %}
+
+
+     <div style="text-align:center; margin-top:20px;">
+
+    <a href="/download">
+
+        <button style="
+            width:300px;
+            background:#28a745;
+        ">
+            Download Prediction Report
+        </button>
+
+    </a>
+
+</div>
+
+    <div class="footer">
+    <p><strong>Developed by Sadaf</strong></p>
+    <p>Customer Churn Prediction using Random Forest Classifier</p>
+    <p>Flask • Python • Scikit-Learn • Machine Learning</p>
+    </div>
+
+</div>
+
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const ctx = document.getElementById('churnChart');
+
+new Chart(ctx, {
+    type: 'pie',
+
+    options: {
+        responsive: true,
+        maintainAspectRatio: true
+    },
+
+    data: {
+        labels: ['Churn', 'Stay'],
+        datasets: [{
+    data: [
+        {{ total_churn }},
+        {{ total_stay }}
+    ],
+    backgroundColor: [
+        '#dc3545',
+        '#28a745'
+       ]
+   }]   
+ }
+});
+</script>
+
+
+</body>
+</html>
+
