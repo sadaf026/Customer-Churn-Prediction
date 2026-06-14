@@ -20,6 +20,26 @@ This project predicts whether a customer is likely to leave a service using Mach
 
 ---
 
+## Dataset Information
+
+The project uses a customer churn dataset containing 500 customer records from a subscription-based service environment.
+
+### Features Used
+
+| Feature | Description |
+|----------|-------------|
+| Tenure | Customer subscription duration |
+| MonthlyCharges | Monthly service charges |
+| TotalCharges | Total amount paid by customer |
+| Contract | Type of customer contract |
+| PaymentMethod | Payment method used |
+| PaperlessBilling | Billing preference |
+| SeniorCitizen | Senior citizen indicator |
+| Churn | Target variable (0 = Stay, 1 = Leave) |
+
+The objective is to predict whether a customer is likely to discontinue the service based on these attributes.
+---
+
 ## Features :
 
 - Customer Churn Prediction
@@ -62,6 +82,51 @@ This project predicts whether a customer is likely to leave a service using Mach
 | Features | 7 |
 | Dataset Records | 500 |
 | Accuracy | 96% |
+
+---
+
+## Why Random Forest?
+
+Random Forest Classifier was selected because it provides strong performance on structured datasets and reduces overfitting through ensemble learning.
+
+Advantages of Random Forest:
+
+- Handles numerical and categorical features effectively
+- Provides high classification accuracy
+- Reduces overfitting
+- Generates feature importance scores
+- Performs well on customer behavior datasets
+
+The model learns patterns from historical customer data and predicts churn probability for new customers.
+
+---
+
+## Machine Learning Workflow
+
+### Step 1: Data Collection
+
+Customer churn data was collected and stored in CSV format.
+
+### Step 2: Data Preprocessing
+
+The dataset was prepared for machine learning by:
+
+- Handling categorical variables
+- Feature encoding
+- Data validation
+- Train-test splitting
+
+### Step 3: Model Training
+
+The processed data was used to train a Random Forest Classifier.
+
+### Step 4: Model Evaluation
+
+The trained model was evaluated using classification metrics to measure prediction performance and reliability.
+
+### Step 5: Deployment
+
+The model was integrated into a Flask web application and deployed on Render for real-time usage.
 
 ---
 
@@ -143,6 +208,22 @@ http://127.0.0.1:5000
 ### Feature Importance
 
 ![Analytics](screenshots/analytics.png)
+
+---
+
+## Business Impact
+
+Customer churn directly affects organizational revenue and growth.
+
+This system helps businesses:
+
+- Identify high-risk customers
+- Improve customer retention
+- Reduce revenue loss
+- Support proactive decision-making
+- Enhance customer relationship management
+
+The project demonstrates how machine learning can be applied to solve real-world business challenges.
 
 ---
 
