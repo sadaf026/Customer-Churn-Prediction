@@ -12,6 +12,17 @@ A Machine Learning powered web application that predicts customer churn using a 
 
 ---
 
+## 🚀 Live Demo
+
+🌐 Live Application:
+https://customer-churn-prediction-joy7.onrender.com
+
+📂 GitHub Repository:
+https://github.com/sadaf026/Customer-Churn-Prediction
+
+---
+
+
 ## Business Problem
 
 Customer churn is one of the biggest challenges for subscription-based businesses.
